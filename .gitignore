@@ -1,0 +1,17 @@
+# Ignore Everything
+*
+
+# Unignores all files and folders needed
+!.gitignore
+!Vagrantfile
+!puphpet
+!puphpet/*
+!puphpet/files
+!puphpet/files/*
+!puphpet/files/*/*
+!puphpet/files/*/*/*
+!puphpet/shell
+!puphpet/shell/*
+!puphpet/shell/*/*
+!puphpet/puppet
+!puphpet/puppet/*
