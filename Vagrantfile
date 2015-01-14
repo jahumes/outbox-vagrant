@@ -82,6 +82,7 @@ Vagrant.configure('2') do |config|
 
       if folder['sync_type'] == 'nfs'
         config.vm.synced_folder "#{folder['source']}", "#{folder['target']}", id: "#{i}", type: 'nfs'
+        config.vm.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/#{i}", "1"]
         if Vagrant.has_plugin?('vagrant-bindfs')
           config.bindfs.bind_folder "#{folder['target']}", "/mnt/vagrant-#{i}"
         end
@@ -124,7 +125,6 @@ Vagrant.configure('2') do |config|
 
         virtualbox.customize ['modifyvm', :id, "--#{key}", "#{value}"]
       end
-
       virtualbox.customize ['modifyvm', :id, '--memory', "#{data['vm']['memory']}"]
       virtualbox.customize ['modifyvm', :id, '--cpus', "#{data['vm']['cpus']}"]
 
@@ -203,6 +203,10 @@ Vagrant.configure('2') do |config|
   end
   config.vm.provision :shell, :path => 'puphpet/shell/install-ruby.sh'
   config.vm.provision :shell, :path => 'puphpet/shell/install-puppet.sh'
+
+  # config.vm.provision "shell", inline: "cp #{data['vm']['synced_folder']['main']['target']}/#{data['vm']['provision']['puppet']['manifests_path']}/Puppetfile /tmp && cd /tmp && librarian-puppet install --verbose"
+  # config.vm.provision "shell", inline: "cp -R --preserve=links /tmp/modules/* #{data['vm']['synced_folder']['main']['target']}/#{data['vm']['provision']['puppet']['manifests_path']}/modules"
+  # config.vm.provision "shell", inline: "cd #{data['vm']['synced_folder']['main']['target']}/#{data['vm']['provision']['puppet']['manifests_path']} && sudo librarian-puppet install --verbose"
 
   config.vm.provision :puppet do |puppet|
     puppet.facter = {

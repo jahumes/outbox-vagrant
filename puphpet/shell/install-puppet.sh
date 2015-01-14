@@ -61,7 +61,7 @@ elif [[ "${OS}" == 'centos' ]]; then
 fi
 
 echo 'Installing Puppet requirements'
-/usr/bin/gem install haml hiera facter json ruby-augeas --no-document
+/usr/bin/gem install haml hiera facter json ruby-augeas librarian-puppet --no-document
 echo 'Finished installing Puppet requirements'
 
 echo 'Installing Puppet 3.4.3'
