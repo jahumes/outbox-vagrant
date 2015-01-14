@@ -33,12 +33,12 @@ vagrantfile-local:
             puppet:
                 manifests_path: puphpet/puppet
                 manifest_file: site.pp
-                module_path: puphpet/puppet/modules
+                working_directory: /home/vagrant
                 options:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
-#                    - '--modulepath=/tmp/modules'
+                    - '--modulepath=/home/vagrant/modules'
         synced_folder:
             main:
                 owner: www-data

@@ -15,3 +15,5 @@
 !puphpet/shell/*/*
 !puphpet/puppet
 !puphpet/puppet/*
+!puphpet/puppet/nodes
+!puphpet/puppet/nodes/*

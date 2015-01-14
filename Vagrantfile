@@ -204,9 +204,10 @@ Vagrant.configure('2') do |config|
   config.vm.provision :shell, :path => 'puphpet/shell/install-ruby.sh'
   config.vm.provision :shell, :path => 'puphpet/shell/install-puppet.sh'
 
-  # config.vm.provision "shell", inline: "cp #{data['vm']['synced_folder']['main']['target']}/#{data['vm']['provision']['puppet']['manifests_path']}/Puppetfile /tmp && cd /tmp && librarian-puppet install --verbose"
-  # config.vm.provision "shell", inline: "cp -R --preserve=links /tmp/modules/* #{data['vm']['synced_folder']['main']['target']}/#{data['vm']['provision']['puppet']['manifests_path']}/modules"
-  # config.vm.provision "shell", inline: "cd #{data['vm']['synced_folder']['main']['target']}/#{data['vm']['provision']['puppet']['manifests_path']} && sudo librarian-puppet install --verbose"
+  config.vm.provision :shell, :inline => "sudo gem install librarian-puppet --no-document"
+  config.vm.provision :shell, :inline => "cp #{data['vm']['synced_folder']['main']['target']}/#{data['vm']['provision']['puppet']['manifests_path']}/Puppetfile #{data['vm']['provision']['puppet']['working_directory']} &&
+                                        cd #{data['vm']['provision']['puppet']['working_directory']} &&
+                                        librarian-puppet install --verbose"
 
   config.vm.provision :puppet do |puppet|
     puppet.facter = {
@@ -216,7 +217,7 @@ Vagrant.configure('2') do |config|
     }
     puppet.manifests_path = "#{data['vm']['provision']['puppet']['manifests_path']}"
     puppet.manifest_file  = "#{data['vm']['provision']['puppet']['manifest_file']}"
-    puppet.module_path    = "#{data['vm']['provision']['puppet']['module_path']}"
+    # puppet.module_path    = "#{data['vm']['provision']['puppet']['module_path']}"
 
     if !data['vm']['provision']['puppet']['options'].empty?
       puppet.options = data['vm']['provision']['puppet']['options']
